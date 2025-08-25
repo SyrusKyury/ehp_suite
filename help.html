@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHP Modding Suite - Help</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --primary-bg: #252526;
+            --border-color: #3c3c3c;
+            --text-color: #d4d4d4;
+            --subtle-text: #a0a0a0;
+            --accent-color: #007acc;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px 40px;
+            background-color: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        h1, h2, h3 {
+            color: #cccccc;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        code {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: #ce9178;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .note {
+            background-color: rgba(0, 122, 204, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        kbd {
+            background-color: #3c3c3c;
+            border: 1px solid #555;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .icon-example {
+            display: inline-block;
+            vertical-align: middle;
+            width: 16px;
+            height: 16px;
+            fill: var(--subtle-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>EHP Modding Suite Help</h1>
+        <p>This page provides instructions on how to use the tool and technical details about the EHP file format used in the Yu-Gi-Oh! Tag Force series.</p>
+
+        <h2>How to Use the Tool</h2>
+        
+        <h3>1. Starting a Project</h3>
+        <p>There are three ways to start:</p>
+        <ul>
+            <li><strong>Unpack an Archive:</strong> Drag an <code>.ehp</code> file onto the main drop zone, or click the "select a file" link. This loads all files from the archive into a live project.</li>
+            <li><strong>Create from Folder:</strong> Drag a folder onto the drop zone, or click the "select a folder" link. This creates a new project using the files from that folder.</li>
+            <li><strong>Create Empty:</strong> Click the "create an empty project" link to start from scratch. You can then add files manually.</li>
+        </ul>
+
+        <h3>2. The File Manager</h3>
+        <p>After loading a project, its contents are displayed in the File Manager. This is your main workspace. Each file has a set of actions available via icons:</p>
+        <ul>
+            <li><svg class="icon-example" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z" /></svg> <strong>Preview File:</strong> Opens a pop-up to preview common file types like images, text, and audio.</li>
+            <li><svg class="icon-example" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.9,11.5L12,9.6L10.1,11.5L12,13.4L13.9,11.5M19.3,16.9L16.9,19.3L14.5,16.9L16.9,14.5L19.3,16.9M2,2V13H4V22H22V2H20V11H18V2H16V13H14V2H12V7H10V2H8V13H6V2H4V13H2V2Z" /></svg> <strong>Edit Pointers:</strong> (Only for <code>*-ptrs.txt</code> files) Opens a graphical editor to easily assign file pointers without needing to know memory offsets.</li>
+            <li><svg class="icon-example" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg> <strong>Edit in Hex:</strong> Opens the powerful Hex Editor for low-level binary modification.</li>
+            <li><svg class="icon-example" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.4,13.1L20,11.7L18.6,13.1L17.9,12.4L19.3,11L17.9,9.6L18.6,8.9L20,10.3L21.4,8.9L22.1,9.6L20.7,11L22.1,12.4L21.4,13.1M17,5V2H9V5H2V7H4V21H16V7H18V5H17M14,19H6V7H14V19Z" /></svg> <strong>Rename:</strong> Allows you to rename the file within the project.</li>
+            <li><svg class="icon-example" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" /></svg> <strong>Download:</strong> Downloads a copy of this single file to your computer.</li>
+            <li><svg class="icon-example" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg> <strong>Delete:</strong> Removes the file from the project.</li>
+        </ul>
+
+        <h3>3. Using the Hex Editor</h3>
+        <ul>
+            <li><strong>Navigation:</strong> Click a byte to select it. Use arrow keys (<kbd>&uarr;</kbd> <kbd>&darr;</kbd> <kbd>&larr;</kbd> <kbd>&rarr;</kbd>), <kbd>PageUp</kbd>, <kbd>PageDown</kbd>, <kbd>Home</kbd>, and <kbd>End</kbd> to navigate. Use the "Go to offset" input to jump to a specific location (e.g., <code>1A80</code>).</li>
+            <li><strong>Editing:</strong> Double-click a byte or press <kbd>Enter</kbd> on a selected byte to modify its value. Press <kbd>Enter</kbd> again or click away to save the change.</li>
+            <li><strong>Undo/Redo:</strong> Use <kbd>Ctrl</kbd>+<kbd>Z</kbd> to undo and <kbd>Ctrl</kbd>+<kbd>Y</kbd> to redo your changes.</li>
+            <li><strong>Search & Replace:</strong> Use the inputs to find and replace byte sequences. "Replace" changes the next occurrence, while "Replace All" changes every match in the file.</li>
+            <li><strong>Data Inspector:</strong> The panel on the right shows the value at the selected offset, interpreted as various data types (Int16, Float32, etc.).</li>
+            <li><strong>Structure Parser:</strong> Select a predefined template from the dropdown to interpret a block of data as a known structure. This is extremely powerful for editing complex data like save files.</li>
+            <li><strong>Programmer's Calculator:</strong> A handy utility for converting between Hex, Decimal, Binary, and Character values. It also shows the byte representation based on the selected Endianness.</li>
+            <li><strong>Saving:</strong> Click "Save to Project" to apply your changes to the file within the app. If you close the editor with unsaved changes, you will be warned.</li>
+        </ul>
+
+        <h3>4. Repacking the Archive</h3>
+        <ul>
+            <li>Once you have finished editing, adding, or removing files, click the "Repack to .ehp" button.</li>
+            <li>The tool will generate a new <code>repacked.ehp</code> file for you to download.</li>
+        </ul>
+        <div class="note">
+            <strong>Custom Mode:</strong> For modding (especially models and animations), it is highly recommended to keep "Custom Mode" unchecked, unless you are working with legacy text-based pointer files. The new graphical Pointer Editor makes this mode largely obsolete for most tasks.
+        </div>
+
+        <h2>Technical Details: EHP File Format</h2>
+        <p>The EHP (EhFolder Packer) format is a simple archive structure. A file is composed of three main parts:</p>
+        <h3>1. Main Header (16 bytes)</h3>
+        <ul>
+            <li><code>0x00 - 0x03</code>: Magic Bytes (<code>0x03504845</code>, which is "EHP" followed by version byte 0x03).</li>
+            <li><code>0x04 - 0x07</code>: Total file size of the entire <code>.ehp</code> archive (32-bit integer).</li>
+            <li><code>0x08 - 0x0B</code>: Secondary Magic Bytes (<code>0x20544F4E</code>, which is "NOT " in ASCII).</li>
+            <li><code>0x0C - 0x0F</code>: Number of files in the archive (32-bit integer).</li>
+        </ul>
+        <h3>2. File Entry Table</h3>
+        <p>Immediately following the header is a table of file entries, each 8 bytes long. The table is terminated by a null entry.</p>
+        <ul>
+            <li><code>0x00 - 0x03</code>: Absolute offset to the file's info block.</li>
+            <li><code>0x04 - 0x07</code>: Absolute offset to the file's raw data.</li>
+        </ul>
+        <h3>3. File Info & Data Blocks</h3>
+        <ul>
+            <li><strong>File Info Block:</strong> Consists of the file's name as a null-terminated string, immediately followed by the file's size as a 32-bit integer.</li>
+            <li><strong>File Data Block:</strong> The raw binary data of the file, typically aligned to a 16-byte boundary.</li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Gi-Oh! Tag Force EHP Modding Suite</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <div id="app-container">
+        <h1>EHP Modding Suite</h1>
+        <p>
+            Extract, modify, and repack your game archives. 
+            <a href="help.html" target="_blank">Need Help?</a>
+        </p>
+
+        <div id="drop-zone">
+            <p>
+                Drag and drop here, or <br>
+                <a href="#" id="select-file-link">select a file</a> to unpack, 
+                <a href="#" id="select-folder-link">select a folder</a> to pack, <br>
+                or <a href="#" id="create-empty-link">create an empty project</a>.
+            </p>
+        </div>
+
+        <div id="options" style="visibility:hidden">
+            <input type="checkbox" id="custom-mode-check">
+            <label for="custom-mode-check">Custom Mode (for modding)</label>
+        </div>
+
+        <div id="status">Ready.</div>
+        
+        <div id="file-manager" style="display: none;">
+            <div id="file-list-controls">
+                <button id="add-file-btn">Add File(s)...</button>
+                <button id="repack-btn">Repack to .ehp</button>
+            </div>
+            <div id="file-list-container"></div>
+        </div>
+
+        <div id="log-container">
+            <div id="log-controls"><label>Operation Log:</label><button id="clear-log-btn">Clear Log</button></div>
+            <div id="log-panel"></div>
+        </div>
+    </div>
+
+    <!-- Modale dell'Hex Editor con tabindex -->
+    <div id="hex-editor-modal" style="display: none;" tabindex="-1">
+        <div id="hex-editor-content">
+            <div id="hex-editor-header">
+                <strong id="hex-editor-filename"></strong>
+                <button id="hex-editor-close-btn">&times;</button>
+            </div>
+            <div id="hex-editor-toolbar">
+                <button id="hex-save-btn">Save to Project</button>
+                <button id="hex-save-as-btn">Save As...</button>
+                <input type="text" id="hex-goto-input" placeholder="Go to offset (hex)...">
+                <button id="hex-goto-btn">Go</button>
+            </div>
+            <div id="hex-editor-toolbar-2">
+                <input type="text" id="hex-search-input" placeholder="Search for...">
+                <input type="text" id="hex-replace-input" placeholder="Replace with...">
+                <select id="hex-search-type">
+                    <option value="hex">Hex String</option>
+                    <option value="text">Text (ASCII)</option>
+                    <option value="int8">Int8</option>
+                    <option value="uint8">UInt8</option>
+                    <option value="int16">Int16 (LE)</option>
+                    <option value="uint16">UInt16 (LE)</option>
+                    <option value="int32">Int32 (LE)</option>
+                    <option value="uint32">UInt32 (LE)</option>
+                    <option value="float32">Float32 (LE)</option>
+                    <option value="float64">Float64 (LE)</option>
+                </select>
+                <button id="hex-search-btn">Find</button>
+                <button id="hex-replace-btn">Replace</button>
+                <button id="hex-replace-all-btn">Replace All</button>
+            </div>
+            <div id="hex-editor-header-row"></div>
+            <div id="hex-editor-body">
+                <div id="hex-editor-view"></div>
+                <div id="hex-inspector-panel">
+                    <div id="data-inspector-container">
+                        <h3 id="inspector-title">Data Inspector</h3>
+                        <div id="inspector-content"></div>
+                    </div>
+                    <div id="struct-parser-panel">
+                        <h3>Structure Parser</h3>
+                        <div id="struct-parser-content">
+                            <select id="struct-template-select"><option value="">Select a template...</option></select>
+                            <button id="struct-apply-btn">Apply</button>
+                            <div id="struct-view"></div>
+                        </div>
+                    </div>
+                    <div id="calculator-panel">
+                        <h3>Programmer's Calc</h3>
+                        <div id="calculator-content">
+                            <div class="calc-row">
+                                <label for="calc-hex">Hex</label>
+                                <input type="text" id="calc-hex" data-base="16">
+                            </div>
+                            <div class="calc-row">
+                                <label for="calc-dec">Dec</label>
+                                <input type="text" id="calc-dec" data-base="10">
+                            </div>
+                            <div class="calc-row">
+                                <label for="calc-bin">Bin</label>
+                                <input type="text" id="calc-bin" data-base="2">
+                            </div>
+                            <div class="calc-row">
+                                <label for="calc-char">Char</label>
+                                <input type="text" id="calc-char" maxlength="1">
+                            </div>
+                            <div class="calc-row calc-endian-group">
+                                <label>Endian</label>
+                                <div>
+                                    <input type="radio" id="calc-le" name="calc-endian" value="le" checked>
+                                    <label for="calc-le">Little</label>
+                                    <input type="radio" id="calc-be" name="calc-endian" value="be">
+                                    <label for="calc-be">Big</label>
+                                </div>
+                            </div>
+                            <div class="calc-row">
+                                <label for="calc-bytes">Bytes</label>
+                                <input type="text" id="calc-bytes" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Altre Modali -->
+    <div id="pointer-editor-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong id="pointer-editor-filename"></strong>
+                <button id="pointer-editor-close-btn">&times;</button>
+            </div>
+            <div id="pointer-editor-view"></div>
+            <div class="modal-footer">
+                <button id="pointer-editor-save-btn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="preview-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong id="preview-filename"></strong>
+                <button id="preview-close-btn">&times;</button>
+            </div>
+            <div id="preview-content"></div>
+        </div>
+    </div>
+    
+    <!-- Input nascosti -->
+    <input type="file" id="file-picker" accept=".ehp" style="display: none;">
+    <input type="file" id="folder-picker" webkitdirectory directory style="display: none;">
+    <input type="file" id="add-file-picker" style="display: none;" multiple>
+
+    <!-- Script modulari -->
+    <script src="utils.js" defer></script>
+    <script src="ehp-handler.js" defer></script>
+    <script src="file-previews.js" defer></script>
+    <script src="pointer-editor.js" defer></script>
+    <script src="hex-editor.js" defer></script>
+    <script src="main.js" defer></script>
+</body>
+</html>
